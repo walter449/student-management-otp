@@ -4,49 +4,327 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Sistema de Gestión de Estudiantes</title>
-    <link rel="stylesheet" href="./style.css">
+    <title>Sistema de Gestión de Estudiantes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #0f1117;
+            --surface: #181c27;
+            --surface2: #1e2333;
+            --border: #2a2f42;
+            --accent: #6c8fff;
+            --accent-glow: rgba(108, 143, 255, 0.15);
+            --green: #4ade80;
+            --red: #f87171;
+            --yellow: #fbbf24;
+            --text: #e8eaf0;
+            --muted: #7a80a0;
+            --radius: 14px;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 32px 24px;
+        }
+
+        /* HEADER */
+        header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #fff 30%, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .badge {
+            background: var(--accent-glow);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-size: 0.7rem;
+            font-weight: 500;
+            padding: 3px 10px;
+            border-radius: 99px;
+            letter-spacing: 0.05em;
+        }
+
+        /* LAYOUT */
+        .layout {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        @media (max-width: 800px) {
+            .layout { grid-template-columns: 1fr; }
+        }
+
+        /* CARD */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+        }
+
+        .card-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .card-sub {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-bottom: 24px;
+        }
+
+        /* FORM */
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .field label {
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .field input {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            padding: 10px 14px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .field input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .field input::placeholder { color: #3a3f55; }
+
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        button {
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            flex: 1;
+        }
+
+        .btn-primary:hover { filter: brightness(1.15); transform: translateY(-1px); }
+
+        .btn-ghost {
+            background: var(--surface2);
+            color: var(--muted);
+            border: 1px solid var(--border);
+        }
+
+        .btn-ghost:hover { color: var(--text); border-color: var(--muted); }
+
+        /* TABLE */
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .count {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .table-wrap { overflow-x: auto; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+
+        thead th {
+            text-align: left;
+            padding: 10px 14px;
+            font-size: 0.72rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: var(--muted);
+            border-bottom: 1px solid var(--border);
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: background 0.15s;
+        }
+
+        tbody tr:last-child { border-bottom: none; }
+        tbody tr:hover { background: var(--surface2); }
+
+        tbody td {
+            padding: 13px 14px;
+            vertical-align: middle;
+        }
+
+        .grade-pill {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 99px;
+            font-size: 0.78rem;
+            font-weight: 500;
+        }
+
+        .grade-high { background: rgba(74,222,128,0.12); color: var(--green); }
+        .grade-mid  { background: rgba(251,191,36,0.12);  color: var(--yellow); }
+        .grade-low  { background: rgba(248,113,113,0.12); color: var(--red); }
+
+        .action-btn {
+            padding: 6px 12px;
+            font-size: 0.78rem;
+            border-radius: 8px;
+            margin-right: 6px;
+        }
+
+        .btn-edit   { background: var(--accent-glow); color: var(--accent); border: 1px solid var(--accent); }
+        .btn-delete { background: rgba(248,113,113,0.1); color: var(--red); border: 1px solid rgba(248,113,113,0.3); }
+        .btn-edit:hover   { background: var(--accent); color: #fff; }
+        .btn-delete:hover { background: var(--red); color: #fff; }
+
+        .empty-state {
+            text-align: center;
+            padding: 48px 0;
+            color: var(--muted);
+            font-size: 0.875rem;
+        }
+
+        .empty-state span { display: block; font-size: 2rem; margin-bottom: 12px; }
+    </style>
 </head>
 
 <body>
-    <div class="container">
-        <h2>Nuevo estudiante</h2>
-        <form id="student-form" action="">
-            <input type="hidden" id="student-id" name="">
-            <div>
-                <label for="name">Nombre</label>
-                <input type="text" id="name" name="name" required minlength="2">
-            </div>
-            <div>
-                <label for="age">Edad</label>
-                <input type="number" id="age" name="age" required min="1">
-            </div>
-            <div>
-                <label for="grade">Nota</label>
-                <input type="number" id="grade" name="grade" required min="1" max="5">
-            </div>
-            <div>
-                <button type="submit" id="submit-btn">Guardar</button>
-                <button type="button" id="cancel-btn">Cancelar</button>
-            </div>
-        </form>
-    </div>
-    <div>
-        <h2>Lista de Estudiantes</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Nota</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="student-list">
 
-            </tbody>
-        </table>
+    <header>
+        <h1>🎓 UniGestión</h1>
+        <span class="badge">Sistema universitario</span>
+    </header>
+
+    <div class="layout">
+
+        <!-- FORMULARIO -->
+        <div class="card">
+            <p class="card-title" id="form-title">Nuevo estudiante</p>
+            <p class="card-sub">Completa los datos del estudiante</p>
+
+            <form id="student-form">
+                <input type="hidden" id="student-id">
+
+                <div class="field">
+                    <label for="name">Nombre</label>
+                    <input type="text" id="name" name="name" placeholder="Ej. María García" required minlength="2">
+                </div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label for="age">Edad</label>
+                        <input type="number" id="age" name="age" placeholder="20" required min="1">
+                    </div>
+                    <div class="field">
+                        <label for="grade">Nota (0–5)</label>
+                        <input type="number" id="grade" name="grade" placeholder="4.5" required min="0" max="5" step="0.1">
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button type="submit" id="submit-btn" class="btn-primary">Guardar</button>
+                    <button type="button" id="cancel-btn" class="btn-ghost">Cancelar</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- TABLA -->
+        <div class="card">
+            <div class="table-header">
+                <div>
+                    <p class="card-title">Lista de Estudiantes</p>
+                    <p class="count" id="student-count">0 estudiantes registrados</p>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Edad</th>
+                            <th>Nota</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="student-list">
+                        <tr>
+                            <td colspan="5">
+                                <div class="empty-state">
+                                    <span>📋</span>
+                                    No hay estudiantes registrados aún
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
+
     <script src="./index.js"></script>
 </body>
 

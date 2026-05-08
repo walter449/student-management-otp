@@ -8,8 +8,8 @@ router = APIRouter(prefix="/auth")
 
 otp_storage = {}
 
-EMAIL = "example@gmail.com"
-PASSWORD = "examplepassword"
+EMAIL = "walteramaya.ac@gmail.com"
+PASSWORD = "ccvl gqzv yplv unqn"
 
 class EmailRequest(BaseModel):
     email: str
