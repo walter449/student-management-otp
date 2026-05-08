@@ -1,10 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routes import students
-from routes import auth
-
 from database import engine, Base
+from routes import students, auth  # ajusta si tu estructura es distinta
 
 Base.metadata.create_all(bind=engine)
 
@@ -20,3 +18,8 @@ app.add_middleware(
 
 app.include_router(students.router)
 app.include_router(auth.router)
+
+
+@app.get("/")
+def home():
+    return {"message": "API funcionando correctamente"}
