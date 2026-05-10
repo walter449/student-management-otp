@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 
 from database import engine, Base
 from routes import students, auth
@@ -20,4 +21,11 @@ app.add_middleware(
 app.include_router(students.router)
 app.include_router(auth.router)
 
-app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
+# Archivos estáticos
+app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
+
+
+# Página principal → Login
+@app.get("/")
+def login_page():
+    return FileResponse("frontend/login.html")
