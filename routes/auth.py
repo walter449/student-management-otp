@@ -40,7 +40,7 @@ def send_otp(data: EmailRequest):
         payload = {
             "sender": {
                 "name": "UniGestion",
-                "email": "walteramaya.ac@gmail.com"
+                "email": "walter.amaya@unisimon.edu.co"
             },
             "to": [
                 {
