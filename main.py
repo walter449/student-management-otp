@@ -30,6 +30,9 @@ app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
 def login_page():
     return FileResponse("frontend/login.html")
 
+
+# Página principal del sistema después del login
 @app.get("/index")
 def index_page():
     return FileResponse("frontend/index.html")
+
