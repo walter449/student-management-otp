@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8000/auth";
+const API_URL = "/auth";
 
 document.getElementById("send-btn").addEventListener("click", sendOTP);
 
