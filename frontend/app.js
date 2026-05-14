@@ -44,7 +44,7 @@ function verifyOTP() {
 
             alert("Login exitoso");
 
-            window.location.href = "./login.html";
+            window.location.href = "/index";
 
         } else {
 
